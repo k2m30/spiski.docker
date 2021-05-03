@@ -1,6 +1,6 @@
 ARG ALPINE_VERSION=3.13
 FROM elixir:1.11-alpine AS builder
-ARG APP_VSN=latest
+ARG APP_VSN=1.0.2
 ARG MIX_ENV=prod
 ARG BOT_TOKEN
 ARG REDIS_HOST
@@ -36,7 +36,7 @@ RUN mix compile
 RUN \
   mkdir -p /opt/built && \
   mix distillery.init && \
-  mix distillery.release --verbose && \
+  mix distillery.release --quiet && \
   cp _build/${MIX_ENV}/rel/app/releases/${APP_VSN}/app.tar.gz /opt/built && \
   cd /opt/built && \
   tar -xzf app.tar.gz && \
