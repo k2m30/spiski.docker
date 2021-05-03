@@ -35,6 +35,7 @@ RUN mix compile
 
 RUN \
   mkdir -p /opt/built && \
+  mix distillery.init && \
   mix distillery.release --verbose && \
   cp _build/${MIX_ENV}/rel/app/releases/${APP_VSN}/app.tar.gz /opt/built && \
   cd /opt/built && \
