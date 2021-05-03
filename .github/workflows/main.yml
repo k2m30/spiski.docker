@@ -13,24 +13,25 @@ jobs:
     env: 
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}          
-      MYSQL_ROOT_USERNAME: root
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_HOST: db
-      MYSQL_DATABASE: db
-
-      GOOGLE_ACCOUNT_TYPE: service_account
-      GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
-      GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
-      SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-
-      REDIS_HOST: redis
-      REDIS_PASSWORD: secret
-
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+
+      - name: Check-out
+        uses: actions/checkout@v2
+      
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_MYSQL_ROOT_USERNAME: root
+          envkey_MYSQL_ROOT_PASSWORD: secret
+          envkey_MYSQL_HOST: db
+          envkey_MYSQL_DATABASE: db
+          envkey_GOOGLE_ACCOUNT_TYPE: service_account
+          envkey_GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
+          envkey_GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+          envkey_SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          envkey_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          envkey_REDIS_HOST: redis
+          envkey_REDIS_PASSWORD: secret
 
       - name: Docker compose build
         run: docker-compose build
