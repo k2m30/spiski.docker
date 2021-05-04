@@ -11,10 +11,10 @@ jobs:
 
     steps:      
       - name: Install doctl
-      uses: digitalocean/action-doctl@v2
-      with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         
       - name: Deploy
-      run: |
-        doctl compute ssh docker-spiski --ssh-command 'cd spiski && docker-compose stop worker && docker-compose pull && docker-compose up -d client worker'
+        run: |
+          doctl compute ssh docker-spiski --ssh-command 'cd spiski && docker-compose stop worker && docker-compose pull && docker-compose up -d client worker'
