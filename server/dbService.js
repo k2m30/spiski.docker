@@ -2,23 +2,31 @@ const mysql = require('mysql');
 const dotenv = require('dotenv');
 let instance = null;
 dotenv.config();
-
-const connection = mysql.createConnection({
+const connectionParams = {
     user: process.env.MYSQL_ROOT_USERNAME,
     password: process.env.MYSQL_ROOT_PASSWORD,
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
     database: process.env.MYSQL_DATABASE
-});
+};
+let connection = mysql.createConnection(connectionParams);
 
 connection.connect((err) => {
     if (err) {
         console.log(err.message);
-        console.log(process.env.MYSQL_HOST);
-        console.log(process.env.MYSQL_DATABASE);
-        console.log(process.env.MYSQL_ROOT_PASSWORD);
+        console.log("Retry..");
+        connection.destroy();
+        connection = mysql.createConnection(connectionParams);
+        setTimeout(() => connection.connect((err) => {
+            if (err) {
+                connection.destroy();
+                console.log(err.message);
+                console.log("Connection failed");
+            }
+            console.log('db ' + connection.state);
+        }), 10000);
     }
-    // console.log('db ' + connection.state);
+    console.log('db ' + connection.state);
 });
 
 
