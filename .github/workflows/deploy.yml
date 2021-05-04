@@ -16,4 +16,4 @@ jobs:
         
       - name: Deploy
       run: |
-        doctl compute ssh docker-spiski --ssh-command 'cd spiski && docker-compose stop worker && docker-compose pull && docker-compose up -d client'
+        doctl compute ssh docker-spiski --ssh-command 'cd spiski && docker-compose stop worker && docker-compose pull && docker-compose up -d client worker'
