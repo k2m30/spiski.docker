@@ -20,7 +20,7 @@ jobs:
         shell: bash
         run: |
           mkdir ~/.ssh
-          'echo "$SSH_KEY" > ~/.ssh/id_rsa'
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
       - name: Add droplet to the list of known hosts
