@@ -30,8 +30,9 @@ services:
   client:
     image: k2m30/nginx_client:1.0
     depends_on:
-      - server
       - db
+      - worker
+      - server
     ports:
       - 80:80
       - 443:443

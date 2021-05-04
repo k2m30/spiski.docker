@@ -42,8 +42,9 @@ services:
       context: client/
       dockerfile: Dockerfile
     depends_on:
-      - server
       - db
+      - worker
+      - server
     ports:
       - 8080:80
     networks:
