@@ -22,7 +22,6 @@ jobs:
           mkdir ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
       - name: Add droplet to the list of known hosts
         run: |
           ssh-keyscan -H $(doctl compute droplet list -o json |jq -r '.[]| "\(.networks.v4[1].ip_address)"') >> ~/.ssh/known_hosts
