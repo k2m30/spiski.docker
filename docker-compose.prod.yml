@@ -1,7 +1,7 @@
 services:
 
   worker:
-    image: k2m30/ruby_worker:1.0
+    image: k2m30/ruby_worker:1.1
     depends_on:
       - db
     env_file: .env
