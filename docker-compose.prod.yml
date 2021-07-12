@@ -8,14 +8,14 @@ services:
     networks:
       - default
 
-  tests:
-    image: k2m30/tests:1.0
-    depends_on:
-      - db
-      - client
-    env_file: .env
-    networks:
-      - default
+#  tests:
+#    image: k2m30/tests:1.0
+#    depends_on:
+#      - db
+#      - client
+#    env_file: .env
+#    networks:
+#      - default
 
   server:
     image: k2m30/js_server:1.0

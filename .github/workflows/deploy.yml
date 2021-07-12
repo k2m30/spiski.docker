@@ -25,6 +25,12 @@ jobs:
       - name: Add droplet to the list of known hosts
         run: |
           ssh-keyscan -H $(doctl compute droplet list -o json |jq -r '.[]| "\(.networks.v4[1].ip_address)"') >> ~/.ssh/known_hosts
+#      - name: Check-out
+#        uses: actions/checkout@v2
+#
+#      - name: Copy production docker-compose file
+#        run: |
+#          doctl compute scp
       - name: Deploy
         run: |
           doctl compute ssh docker-spiski --ssh-command 'cd spiski && docker-compose stop worker && docker-compose pull && docker-compose up -d client worker'

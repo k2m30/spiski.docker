@@ -14,7 +14,7 @@ SHEETS =
     january: { name: "Январь-Февраль для публикации" },
     march: { name: "Март-Апрель для публикации" },
     may: { name: "Май-Июнь для публикации" },
-    july: { name: "Июль-Аагуст для публикации" },
+    july: { name: "Июль-Август для публикации" },
     today: { name: "Сегодня для публикации" },
     digital: { name: "Оцифровка для публикации" }
   }
@@ -28,11 +28,15 @@ def init
 end
 
 def update_sheet(service, spreadsheet_id, sheet_name, sheet_id)
-
-  range = "#{sheet_name}!A1:V"
-
-  response = service.get_spreadsheet_values(spreadsheet_id, range)
-
+  begin
+    range = "#{sheet_name}!A1:V"
+    response = service.get_spreadsheet_values(spreadsheet_id, range)
+  rescue => e
+    p "Skipped #{sheet_name} due to error"
+    p e.message
+    p e.backtrace.join["\n"]
+    return
+  end
   ActiveRecord::Base.transaction do
     headers = response.values.first
     response.values[1..].each do |row|
@@ -54,6 +58,7 @@ def update_sheet(service, spreadsheet_id, sheet_name, sheet_id)
 end
 
 def update_all
+  p SPREADSHEET_ID
   SHEETS.keys.each { |key| p key; update_sheet @service, SPREADSHEET_ID, SHEETS[key][:name], SHEETS.keys.index(key) }
   p Record.all.first
   p Record.all.last

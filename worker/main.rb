@@ -4,7 +4,7 @@ init
 
 loop do
   update_all
-  sleep 5.minutes
+  sleep 10.minutes
 rescue => e
   @logger.error e.message
   @logger.error e.backtrace.join["\n"]
