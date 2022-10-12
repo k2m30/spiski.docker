@@ -3,26 +3,13 @@ require 'json'
 require_relative 'record'
 
 SPREADSHEET_ID = ENV['SPREADSHEET_ID']
-SHEETS =
-  {
-    august: { name: "Август для публикации" },
-    august_begin: { name: "09.08-23.08 (Весна) для публикации" },
-    august_end: { name: "25.08-05.09 для публикации" },
-    september: { name: "08.09-26.09 для публикации" },
-    october: { name: "Сентябрь-Октябрь для публикации" },
-    november: { name: "Ноябрь-Декабрь для публикации" },
-    january: { name: "Январь-Февраль для публикации" },
-    march: { name: "Март-Апрель для публикации" },
-    may: { name: "Май-Июнь для публикации" },
-    july: { name: "Июль-Август для публикации" },
-    late_2021: { name: "Сентябрь-Декабрь21 для публикации" },
-    q1_22: {name: "Январь-Апрель22 для публикации"},
-    q2_22: {name: "Май-Август22 для публикации"},
-    courts: {name: "Суды Сравнение для публикации"},
-    today: { name: "Сегодня для публикации" },
-    digital: { name: "Оцифровка для публикации" }
-  }
 SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
+
+def load_sheets
+  sheets = JSON.parse(File.read("/sheets.json"), symbolize_names: true)
+  p sheets
+  sheets
+end
 
 def init
   authorization = Google::Auth.get_application_default(SCOPE)
@@ -63,7 +50,8 @@ end
 
 def update_all
   p SPREADSHEET_ID
-  SHEETS.keys.each { |key| p key; update_sheet @service, SPREADSHEET_ID, SHEETS[key][:name], SHEETS.keys.index(key) }
+  sheets = load_sheets
+  sheets.keys.each { |key| p key; update_sheet @service, SPREADSHEET_ID, sheets[key][:name], sheets.keys.index(key) }
   p Record.all.first
   p Record.all.last
   p Record.count
